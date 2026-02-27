@@ -97,15 +97,14 @@ WSGI_APPLICATION = "djangoproject.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'homidb',
         'USER': 'homiuser',
         'PASSWORD': 'SuperStrongPass123!',
-        'HOST': '27.102.137.238',
-        'PORT': '5432', 
+        'HOST': '127.0.0.1',  # use TCP/IP
+        'PORT': '5433',       # must match PostgreSQL port
     }
 }
 
