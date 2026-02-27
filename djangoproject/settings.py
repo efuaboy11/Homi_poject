@@ -105,8 +105,7 @@ DATABASES = {
         'USER': 'homiuser',
         'PASSWORD': 'SuperStrongPass123!',
         'HOST': '27.102.137.238',
-        'PORT': '5432',
-        
+        'PORT': '5432', 
     }
 }
 
