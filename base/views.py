@@ -220,19 +220,19 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         
         email = serializer.validated_data['email']
-        otp = serializer.validated_data['otp']
+        # otp = serializer.validated_data['otp']
         password = serializer.validated_data['password']
         
         try:
             user = Users.objects.get(email=email)
-            otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
+            # otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
             
             if DisableAccount.objects.filter(user=user).exists():
                 return Response(f'Your account is disable. Please contact support ', status=status.HTTP_400_BAD_REQUEST)
             
-            expiration_time = otp_instance.created_at + timedelta(minutes=120)
-            if timezone.now() > expiration_time:
-                return Response({'error': 'OTP has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
+            # expiration_time = otp_instance.created_at + timedelta(minutes=120)
+            # if timezone.now() > expiration_time:
+            #     return Response({'error': 'OTP has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
             
             # Use email as the identifier for authentication
             user = authenticate(email=email, password=password)
