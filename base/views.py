@@ -557,8 +557,8 @@ from django.views.decorators.csrf import csrf_exempt
     
 @method_decorator(csrf_exempt, name='dispatch')  
 class CreateOrderView(APIView):
-    authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsClient]
+    authentication_classes = []     # 🚫 No authentication
+    permission_classes = [AllowAny]
     
     def get_client(self):
         """
