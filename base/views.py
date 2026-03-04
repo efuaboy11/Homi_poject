@@ -769,13 +769,13 @@ class UpdateOrderStatusView(generics.UpdateAPIView):
             "completed": [],
         }
 
-        if new_status not in allowed_transitions[order.status]:
-            return Response(
-                {
-                    "error": f"Cannot change status from '{order.status}' to '{new_status}'"
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        # if new_status not in allowed_transitions[order.status]:
+        #     return Response(
+        #         {
+        #             "error": f"Cannot change status from '{order.status}' to '{new_status}'"
+        #         },
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
 
         order.status = new_status
         order.save()
