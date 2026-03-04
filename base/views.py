@@ -798,4 +798,4 @@ class UpdateOrderView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
-    lookup_field = 'id'
+    lookup_field = 'pk'
