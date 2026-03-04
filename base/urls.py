@@ -39,7 +39,7 @@ urlpatterns = [
     #Order
     path('create-order/', views.CreateOrderView.as_view(), name='create-order'),
     path('order/', views.OrderView.as_view(), name='order'), 
-    # path('order/<int:pk>/', views.UpdateOrderView.as_view(), name='update-order'), 
+    path('order/<int:pk>/', views.UpdateOrderView.as_view(), name='update-order'), 
     path('assign-courier/<int:pk>/', views.AssignCourierView.as_view(), name='assign-courier'), 
     path("update-order-status/<int:pk>/", views.UpdateOrderStatusView.as_view(), name="update-order-status"),
     
