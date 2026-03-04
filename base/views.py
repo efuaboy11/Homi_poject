@@ -552,7 +552,7 @@ class RemoveCartProductView(generics.GenericAPIView):
       
       
 class CreateOrderView(APIView):
-    permission_classes = [IsClient]
+    # permission_classes = [IsClient]
     
     def get_client(self):
         """
