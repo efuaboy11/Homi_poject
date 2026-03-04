@@ -550,15 +550,9 @@ class RemoveCartProductView(generics.GenericAPIView):
         return Response({"message": "Product removed from cart successfully."}, status=status.HTTP_200_OK)                                                                                                                                                                                                                                
       
       
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-
-    
-@method_decorator(csrf_exempt, name='dispatch')  
+      
 class CreateOrderView(APIView):
-    authentication_classes = []     # 🚫 No authentication
-    permission_classes = [AllowAny]
+    permission_classes = [IsClient]
     
     def get_client(self):
         """
