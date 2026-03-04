@@ -551,7 +551,11 @@ class RemoveCartProductView(generics.GenericAPIView):
       
       
 from rest_framework_simplejwt.authentication import JWTAuthentication
-      
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+    
+@method_decorator(csrf_exempt, name='dispatch')  
 class CreateOrderView(APIView):
     authentication_classes = [JWTAuthentication]
     # permission_classes = [IsClient]
