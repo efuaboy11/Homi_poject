@@ -40,6 +40,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://27.102.137.238", 
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://27.102.137.238",
+    "http://27.102.137.238:8000",
+]
+
 
 # Application definition
 
