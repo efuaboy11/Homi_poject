@@ -550,8 +550,10 @@ class RemoveCartProductView(generics.GenericAPIView):
         return Response({"message": "Product removed from cart successfully."}, status=status.HTTP_200_OK)                                                                                                                                                                                                                                
       
       
+from rest_framework_simplejwt.authentication import JWTAuthentication
       
 class CreateOrderView(APIView):
+    authentication_classes = [JWTAuthentication]
     # permission_classes = [IsClient]
     
     def get_client(self):
