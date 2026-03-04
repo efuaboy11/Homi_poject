@@ -607,6 +607,7 @@ class CreateOrderView(APIView):
                 "price": float(price),
                 "image": item.product.image,
                 "total_price": float(total),
+                
             })
 
             total_amount += total
