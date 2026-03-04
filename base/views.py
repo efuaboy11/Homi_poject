@@ -605,8 +605,8 @@ class CreateOrderView(APIView):
                 "name": item.product.name,
                 "quantity": item.quantity,
                 "price": float(price),
-                "image": 'item.product.image',
-                # "total_price": float(total),
+                "image": item.product.image,
+                "total_price": float(total),
      
             })
 
@@ -791,3 +791,11 @@ class UpdateOrderStatusView(generics.UpdateAPIView):
             },
             status=status.HTTP_200_OK,
         )
+        
+        
+# Update Order
+class UpdateOrderView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = Order 
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
