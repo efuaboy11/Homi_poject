@@ -659,18 +659,18 @@ class OrderView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        order_status = self.request.query_params.get('status')
+        queryset = Order.objects.all()
         
-        print("Logged in user:", self.request.user)
-        print("User ID:", self.request.user.id)
-        print("User role:", self.request.user.role)
-        print("All Orders:", Order.objects.values("id", "user_id"))
+        if order_status:
+            queryset = queryset.filter(status=order_status)
 
 
         # CLIENT
         if user.role == "client":
             try:
                 client = Client.objects.get(id=user.id)
-                return Order.objects.filter(user=client)
+                queryset =  queryset.filter(user=client)
             except Client.DoesNotExist:
                 return Order.objects.none()
 
@@ -678,7 +678,7 @@ class OrderView(generics.ListAPIView):
         elif user.role == "store_owner":
             try:
                 store = StoreOwners.objects.get(id=user.id)
-                return Order.objects.filter(store=store)
+                queryset =  queryset.filter(store=store)
             except StoreOwners.DoesNotExist:
                 return Order.objects.none()
 
@@ -686,15 +686,19 @@ class OrderView(generics.ListAPIView):
         elif user.role == "courier":
             try:
                 courier = Couriers.objects.get(id=user.id)
-                return Order.objects.filter(courier=courier)
+                queryset =  queryset.filter(courier=courier)
             except Couriers.DoesNotExist:
                 return Order.objects.none()
 
         # ADMIN
         elif user.role == "admin":
-            return Order.objects.all()
-
-        return Order.objects.none()
+            queryset =  queryset.all()
+        else:
+            queryset =  queryset.none()
+        
+        return queryset
+    
+    
     
 
 class AssignCourierView(generics.UpdateAPIView):
