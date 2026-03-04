@@ -796,6 +796,6 @@ class UpdateOrderStatusView(generics.UpdateAPIView):
 # Update Order
 class UpdateOrderView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
-    serializer_class = Order 
+    serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
