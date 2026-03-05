@@ -107,13 +107,17 @@ class StoreOwnerView(generics.ListCreateAPIView):
     
 
 
-class CourierView(generics.CreateAPIView):
+
+class CourierView(generics.ListCreateAPIView):
     serializer_class = CouriersSerializer
     filter_backends = [ExactSearchFilter]
     search_fields = ['first_name', 'last_name']
     queryset = Couriers.objects.all()
-    permission_classes = [AllowAny]
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [AllowAny()]   # anyone can create courier
+        return [IsAdminUser()]   # only admin can view list
 
     
 #Request OTP
