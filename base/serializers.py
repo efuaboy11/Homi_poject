@@ -54,6 +54,7 @@ class ClientSerializer(UsersSerializer):
             'city',
             'street',
             'apartment',
+            'date_joined',
         ]
         
         
@@ -64,6 +65,7 @@ class StoreOwnersSerializer(UsersSerializer):
             'store_name',
             'address',
             'decriptions',
+            'date_joined',
         ]
         
 class CouriersSerializer(UsersSerializer):
@@ -73,6 +75,7 @@ class CouriersSerializer(UsersSerializer):
             'address',
             'phone_number',
             'about',
+            'date_joined',
         ]
         
 # -------------------------------------- AUTHENTICATION --------------------------------------
