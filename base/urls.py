@@ -27,6 +27,11 @@ urlpatterns = [
     path('product/', views.ProductView.as_view(), name='product'),
     path('product/<str:pk>/', views.ProductRetrieveUpdateDestroy.as_view(), name='individual-product'),
     path('delete-multiple-product/', views.DeleteMultipleProductView.as_view(), name='delete-multiple-product'),
+    path(
+        'product-categories-products/',
+        views.ProductCategoriesWithProductsView,
+        name='product-categories-products'
+    ),
     
     
     #Cart

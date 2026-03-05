@@ -232,6 +232,45 @@ class ProductSerializer(serializers.ModelSerializer):
     
     
     
+class CategoryProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'product_id',
+            'name',
+            'description',
+            'price',
+            'image',
+            'is_active',
+            'created_at'
+        ]
+    
+    
+class ProductCategoriesWithProductsSerializer(serializers.ModelSerializer):
+
+    products = CategoryProductSerializer(many=True, read_only=True)
+    store_owner_details = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductCategories
+        fields = [
+            'id',
+            'category_id',
+            'store_owner',
+            'store_owner_details',
+            'name',
+            'description',
+            'is_active',
+            'created_at',
+            'products'
+        ]
+
+    def get_store_owner_details(self, obj):
+        serializer = StoreOwnersSerializer(obj.store_owner, many=False)
+        return serializer.data
+    
     
     
 class CartSerializer(serializers.ModelSerializer):

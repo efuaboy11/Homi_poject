@@ -446,6 +446,34 @@ class DeleteMultipleProductView(generics.GenericAPIView):
 
    
    
+#This is used to get the products in each categories
+class ProductCategoriesWithProductsView(generics.ListAPIView):
+
+    permission_classes = [AllowAny]
+    serializer_class = ProductCategoriesWithProductsSerializer
+    filter_backends = [ExactSearchFilter]
+    search_fields = ['name']
+
+    def get_queryset(self):
+
+        user = self.request.user
+        store_filter = self.request.query_params.get('store_filter')
+
+        queryset = ProductCategories.objects.prefetch_related('products')
+
+        if store_filter:
+            queryset = queryset.filter(store_owner_id=store_filter)
+
+        if user.is_authenticated:
+            if user.role == Role.CLIENT:
+                queryset = queryset.filter(is_active=True)
+        else:
+            queryset = queryset.filter(is_active=True)
+
+        return queryset
+   
+
+   
 class CartView(generics.ListCreateAPIView):
     permission_classes = [IsClient]
     serializer_class = CartSerializer
