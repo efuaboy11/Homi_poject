@@ -29,7 +29,7 @@ urlpatterns = [
     path('delete-multiple-product/', views.DeleteMultipleProductView.as_view(), name='delete-multiple-product'),
     path(
         'product-categories-products/',
-        views.ProductCategoriesWithProductsView,
+        views.ProductCategoriesWithProductsView.as_view(),
         name='product-categories-products'
     ),
     
