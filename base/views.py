@@ -26,6 +26,33 @@ from .paystack import Paystack
 def endpoints(request):
     data = [
         "users/",
+        'users/<uuid:id>/', 
+        'request-otp/',
+        'forget-password/', 
+        'login/',
+        'token/refresh/',
+        'disable-account/',
+        'disable-account/<int:pk>/',
+        'couriers/',
+        'clients/',
+        'store-owner/',
+        'product-categories/',
+        'product-categories/<str:pk>/',
+        'delete-multiple-product-categories/', 
+        'product/',
+        'product/<str:pk>/',
+        'delete-multiple-product/',
+        'product-categories-products/',
+        'cart/', 
+        'cart/<str:pk>/',
+        'increase-cart-product-quantity/',
+        'decrease-cart-product-quantity/', 
+        'remove-cart-product/',
+        'create-order/',
+        'order/',
+        'order/<int:pk>/',
+        'assign-courier/<int:pk>/',
+        'update-order-status/<int:pk>/',
     ]
     return Response(data)
 
