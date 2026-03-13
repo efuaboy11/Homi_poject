@@ -106,8 +106,8 @@ class StoreOwners(Users):
 class Couriers(Users):
     address = models.CharField(max_length=50, null=True, blank=True)
     phone_number =  models.CharField(max_length=50, null=True, blank=True)
-    document_type = models.CharField(max_length=50)
-    country_issued = models.CharField(max_length=50)
+    document_type = models.CharField(max_length=50, null=True, blank=True)
+    country_issued = models.CharField(max_length=50, null=True, blank=True)
     courier_profile_img = models.ImageField(upload_to='courier_profile_img/', null=True, blank=True)
     proof_selfie = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
     font_side = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
