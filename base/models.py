@@ -75,6 +75,7 @@ class  Users(AbstractBaseUser, PermissionsMixin):
 class Client(Users):
     city =  models.CharField(max_length=50, null=True, blank=True)
     street =  models.CharField(max_length=50, null=True, blank=True)
+    phone_number = models.CharField(max_length=50, null=True, blank=True)
     apartment =  models.CharField(max_length=100, null=True, blank=True)
     
     class Meta:
@@ -89,6 +90,10 @@ class Client(Users):
 class StoreOwners(Users):
     store_name =  models.CharField(max_length=50, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
+    company_number = models.CharField(max_length=50, null=True, blank=True)
+    enterprise_owner_id = models.CharField(max_length=50, null=True, blank=True)
+    phone_number = models.CharField(max_length=50, null=True, blank=True)
+    company_legal_file = models.ImageField(upload_to='company_legal_file/', blank=True, null=True)
     decriptions =  models.TextField(max_length=200, null=True, blank=True)
     
     class Meta:
@@ -101,6 +106,12 @@ class StoreOwners(Users):
 class Couriers(Users):
     address = models.CharField(max_length=50, null=True, blank=True)
     phone_number =  models.CharField(max_length=50, null=True, blank=True)
+    document_type = models.CharField(max_length=50)
+    country_issued = models.CharField(max_length=50)
+    courier_profile_img = models.ImageField(upload_to='courier_profile_img/')
+    proof_selfie = models.ImageField(upload_to='courier_id_image/')
+    font_side = models.ImageField(upload_to='courier_id_image/')
+    back_side = models.ImageField(upload_to='courier_id_image/')
     about =  models.TextField(max_length=200, null=True, blank=True)
     
     

@@ -54,6 +54,7 @@ class ClientSerializer(UsersSerializer):
             'city',
             'street',
             'apartment',
+            'phone_number',
             'date_joined',
         ]
         
@@ -64,6 +65,10 @@ class StoreOwnersSerializer(UsersSerializer):
         fields = UsersSerializer.Meta.fields + [
             'store_name',
             'address',
+            'company_number',
+            'enterprise_owner_id',
+            'phone_number',
+            'company_legal_file',
             'decriptions',
             'date_joined',
         ]
@@ -74,6 +79,12 @@ class CouriersSerializer(UsersSerializer):
         fields = UsersSerializer.Meta.fields + [
             'address',
             'phone_number',
+            'document_type',
+            'country_issued',
+            'courier_profile_img',
+            'proof_selfie',
+            'font_side',
+            'back_side',
             'about',
             'date_joined',
         ]
