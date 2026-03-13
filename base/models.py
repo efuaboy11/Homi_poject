@@ -108,10 +108,10 @@ class Couriers(Users):
     phone_number =  models.CharField(max_length=50, null=True, blank=True)
     document_type = models.CharField(max_length=50)
     country_issued = models.CharField(max_length=50)
-    courier_profile_img = models.ImageField(upload_to='courier_profile_img/')
-    proof_selfie = models.ImageField(upload_to='courier_id_image/')
-    font_side = models.ImageField(upload_to='courier_id_image/')
-    back_side = models.ImageField(upload_to='courier_id_image/')
+    courier_profile_img = models.ImageField(upload_to='courier_profile_img/', null=True, blank=True)
+    proof_selfie = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
+    font_side = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
+    back_side = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
     about =  models.TextField(max_length=200, null=True, blank=True)
     
     
