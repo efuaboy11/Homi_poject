@@ -118,7 +118,7 @@ class UpdateUserView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
-class ClientView(generics.CreateAPIView):
+class ClientView(generics.ListCreateAPIView):
     serializer_class = ClientSerializer
     permission_classes = [AllowAny]
     queryset = Client.objects.all()
