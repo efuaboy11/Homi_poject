@@ -1,6 +1,14 @@
 from rest_framework.permissions import BasePermission
 from .models import Role
 
+class IsAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user
+            or request.user.is_authenticated
+            or request.user.role == Role.ADMIN
+        )
+
 class IsAdminOrClientOrStoreOwner(BasePermission):
     def has_permission(self, request, view):
         return (

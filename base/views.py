@@ -286,7 +286,7 @@ class CustomRefreshTokenView(TokenRefreshView):
     
 class ChangeAdminPasswordView(generics.GenericAPIView):
     serializer_class = ChangeAdminPasswordSerializer
-    permission_classes = [IsAdminOrStoreOwner]
+    permission_classes = [IsAdmin]
     authentication_classes = []
     
     def post(self, request, *args, **kwargs):
