@@ -239,6 +239,7 @@ class ForgotPasswordVIew(generics.GenericAPIView):
         )
         
         
+
         
         
 #Login
@@ -282,6 +283,27 @@ class LoginView(generics.GenericAPIView):
 class CustomRefreshTokenView(TokenRefreshView):
     serializer_class = CustomTokenRefreshSerializer
     
+    
+class ChangeAdminPasswordView(generics.GenericAPIView):
+    serializer_class = ChangeAdminPasswordSerializer
+    permission_classes = [IsAdminUser]
+    authentication_classes = []
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        email = serializer.validated_data['email']
+        new_password = serializer.validated_data['new_password']
+        
+        try:
+            user = Users.objects.get(email=email)
+            # otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
+            
+            user.set_password(new_password)
+            user.save()          
+        except Users.DoesNotExist:
+            return Response({'error': 'Invalid email or OTP.'}, status=status.HTTP_404_NOT_FOUND)
     
 class DisableAccountView(generics.ListCreateAPIView):
     serializer_class = DisableAccountSerializer

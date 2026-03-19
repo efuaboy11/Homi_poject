@@ -162,6 +162,11 @@ class LogoutSerializer(serializers.Serializer):
     refresh_token  = serializers.CharField()
     
     
+class ChangeAdminPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    new_password = serializers.CharField(write_only=True, min_length=8)
+    
+    
 class DisableAccountSerializer(serializers.ModelSerializer):
     user_details = serializers.SerializerMethodField()
     class Meta:

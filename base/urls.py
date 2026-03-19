@@ -10,6 +10,7 @@ urlpatterns = [
     path('request-otp/', views.RequestOTPView.as_view(), name='request-otp'),
     path('forget-password/', views.ForgotPasswordVIew.as_view(), name='verify-otp'),
     path('login/', views.LoginView.as_view(), name='login'),
+    path('change-password-admin/', views.ChangeAdminPasswordView.as_view(), name='login'),
     path('token/refresh/', views.CustomRefreshTokenView.as_view(), name="token_refresh"),
     path('disable-account/', views.DisableAccountView.as_view(), name='disable-account'),
     path('disable-account/<int:pk>/', views.DisableAccountRetrieveDestory.as_view(), name='disable-account-delete'),

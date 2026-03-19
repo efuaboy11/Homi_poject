@@ -219,6 +219,7 @@ class Order(models.Model):
         ('courier_assigned', 'Curier Assigned'),
         ('delivering', 'Delivering'),
         ('completed', 'Completed'),
+        ('canceled', 'Canceledd')
     ]
     
     user =models.ForeignKey(Client, on_delete=models.CASCADE)
