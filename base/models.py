@@ -68,7 +68,8 @@ class  Users(AbstractBaseUser, PermissionsMixin):
     objects = CustomAccountManager()
     
     def __str__(self):
-        return self.first_name
+        full_name = f"{self.first_name or ''} {self.last_name or ''}".strip()
+        return full_name or self.email
     
     
     
