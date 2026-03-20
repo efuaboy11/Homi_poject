@@ -22,7 +22,8 @@ class UsersSerializer(serializers.ModelSerializer):
             'current_lat',
             'current_lng',
             'role',
-            'account_status',       
+            'account_status',  
+            'date_joined',     
         ]
         extra_kwargs = {
             'password': {'write_only': True},  
