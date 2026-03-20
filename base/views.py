@@ -123,6 +123,12 @@ class ClientView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Client.objects.all()
     
+class RetrieveClientView(generics.RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = ClientSerializer 
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
        
     
 class StoreOwnerView(generics.ListCreateAPIView):
@@ -131,6 +137,12 @@ class StoreOwnerView(generics.ListCreateAPIView):
     filter_backends = [ExactSearchFilter]
     search_fields = ['store_name']
     queryset = StoreOwners.objects.all()
+    
+class RetrieveStoreOwnertView(generics.RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = StoreOwnersSerializer 
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
     
 
 
@@ -148,6 +160,14 @@ class CourierView(generics.ListCreateAPIView):
     #     return [IsAdminUser()]   # only admin can view list
 
     
+class RetrieveCourierView(generics.RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = CouriersSerializer 
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    
+
 #Request OTP
 class RequestOTPView(generics.GenericAPIView):
     serializer_class = RequestOTPSerializer

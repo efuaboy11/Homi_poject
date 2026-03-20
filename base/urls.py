@@ -14,9 +14,15 @@ urlpatterns = [
     path('token/refresh/', views.CustomRefreshTokenView.as_view(), name="token_refresh"),
     path('disable-account/', views.DisableAccountView.as_view(), name='disable-account'),
     path('disable-account/<int:pk>/', views.DisableAccountRetrieveDestory.as_view(), name='disable-account-delete'),
+    
     path('couriers/', views.CourierView.as_view(), name='couriers'),
-    path('clients/', views.ClientView.as_view(), name='couriers'),
-    path('store-owner/', views.StoreOwnerView.as_view(), name='couriers'),
+    path('couriers/<uuid:id>/', views.RetrieveCourierView.as_view(), name='individual-couriers'),
+    
+    path('clients/', views.ClientView.as_view(), name='clients'),
+    path('clients/<uuid:id>/', views.RetrieveClientView.as_view(), name='individual-clients'),
+    
+    path('store-owner/', views.StoreOwnerView.as_view(), name='store-owner'),
+    path('store-owner/<uuid:id>/', views.RetrieveStoreOwnertView.as_view(), name='individual-store-owner'),
     
     
     # Product Categories
