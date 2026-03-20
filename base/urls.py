@@ -5,8 +5,8 @@ app_name = 'base'
 
 urlpatterns = [
     path('', views.endpoints, name='endpoints'),
-    path('users/', views.UsersViews.as_view(), name='users'),
-    path('users/<uuid:id>/', views.UpdateUserView.as_view(), name='user_details'),
+    # path('users/', views.UsersViews.as_view(), name='users'),
+    # path('users/<uuid:id>/', views.UpdateUserView.as_view(), name='user_details'),
     path('request-otp/', views.RequestOTPView.as_view(), name='request-otp'),
     path('forget-password/', views.ForgotPasswordVIew.as_view(), name='verify-otp'),
     path('login/', views.LoginView.as_view(), name='login'),
