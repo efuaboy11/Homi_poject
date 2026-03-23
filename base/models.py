@@ -49,8 +49,8 @@ class  Users(AbstractBaseUser, PermissionsMixin):
     # EXTRA FIELDS
     first_name = models.CharField(max_length=50, null=False, blank=False)
     last_name = models.CharField(max_length=50, null=False, blank=False)
-    current_lat = models.FloatField(null=False, blank=False)
-    current_lng = models.FloatField(null=False, blank=False)
+    current_lat = models.FloatField(default=0.0)
+    current_lng = models.FloatField(default=0.0)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.CLIENT)
     account_status = models.CharField(
         max_length=10,
