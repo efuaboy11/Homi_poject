@@ -74,10 +74,10 @@ class  Users(AbstractBaseUser, PermissionsMixin):
     
     
 class Client(Users):
-    city =  models.CharField(max_length=50, null=True, blank=True)
-    street =  models.CharField(max_length=50, null=True, blank=True)
-    phone_number = models.CharField(max_length=50, null=True, blank=True)
-    apartment =  models.CharField(max_length=100, null=True, blank=True)
+    city =  models.CharField(max_length=50, null=False, blank=False)
+    street =  models.CharField(max_length=50, null=False, blank=False)
+    phone_number = models.CharField(max_length=50, null=False, blank=False)
+    apartment =  models.CharField(max_length=100, null=False, blank=False)
     
     class Meta:
         verbose_name_plural = "Client"
@@ -89,11 +89,11 @@ class Client(Users):
     
     
 class StoreOwners(Users):
-    store_name =  models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=50, null=True, blank=True)
+    store_name =  models.CharField(max_length=50, null=False, blank=False)
+    address = models.CharField(max_length=50, null=False, blank=False)
     company_number = models.CharField(max_length=50, null=True, blank=True)
     enterprise_owner_id = models.CharField(max_length=50, null=True, blank=True)
-    phone_number = models.CharField(max_length=50, null=True, blank=True)
+    phone_number = models.CharField(max_length=50, null=False, blank=False)
     company_legal_file = models.ImageField(upload_to='company_legal_file/', blank=True, null=True)
     decriptions =  models.TextField(max_length=200, null=True, blank=True)
     
@@ -105,8 +105,8 @@ class StoreOwners(Users):
     
     
 class Couriers(Users):
-    address = models.CharField(max_length=50, null=True, blank=True)
-    phone_number =  models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50, null=False, blank=False)
+    phone_number =  models.CharField(max_length=50, null=False, blank=False)
     document_type = models.CharField(max_length=50, null=True, blank=True)
     country_issued = models.CharField(max_length=50, null=True, blank=True)
     courier_profile_img = models.ImageField(upload_to='courier_profile_img/', null=True, blank=True)
