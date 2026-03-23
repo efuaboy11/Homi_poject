@@ -903,3 +903,9 @@ class UpdateOrderView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
+    
+    
+from django.views.generic import TemplateView
+
+class DocsView(TemplateView):
+    template_name = "docs.html"

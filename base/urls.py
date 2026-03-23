@@ -55,4 +55,5 @@ urlpatterns = [
     path('assign-courier/<int:pk>/', views.AssignCourierView.as_view(), name='assign-courier'), 
     path("update-order-status/<int:pk>/", views.UpdateOrderStatusView.as_view(), name="update-order-status"),
     
+    path('docs/', views.DocsView.as_view(), name='docs'),
 ]

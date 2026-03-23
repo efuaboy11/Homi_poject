@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            line-height: 1.7;
+        }
+        code, pre {
+            background: #f4f4f4;
+            padding: 6px;
+            display: block;
+            overflow-x: auto;
+        }
+        h1, h2, h3 {
+            margin-top: 30px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>API Documentation</h1>
+
+<!-- INTRODUCTION -->
+<h2>Introduction</h2>
+<p>
+This is an <strong>Order Tracking System</strong> where:
+</p>
+<ul>
+    <li>Store owners upload products</li>
+    <li>Clients (customers) place orders</li>
+    <li>Couriers deliver orders</li>
+    <li>Store owners manage and assign deliveries</li>
+</ul>
+
+<p>The system is divided into four main roles:</p>
+<ul>
+    <li><strong>Admin</strong></li>
+    <li><strong>Store Owner</strong></li>
+    <li><strong>Courier</strong></li>
+    <li><strong>Client</strong></li>
+</ul>
+
+<!-- ROLES -->
+<h2>System Roles & Responsibilities</h2>
+
+<h3>Admin</h3>
+<ul>
+    <li>View all user accounts (clients, couriers, store owners)</li>
+    <li>Monitor products and categories</li>
+    <li>Disable or manage user accounts</li>
+</ul>
+
+<h3>Store Owner</h3>
+<ul>
+    <li>Create and manage products</li>
+    <li>Create product categories</li>
+    <li>Assign couriers to orders</li>
+    <li>Manage delivery process</li>
+</ul>
+
+<h3>Courier</h3>
+<ul>
+    <li>Receive assigned orders</li>
+    <li>Deliver products to clients</li>
+    <li>Update delivery status</li>
+</ul>
+
+<h3>Client</h3>
+<ul>
+    <li>Browse products</li>
+    <li>Place orders</li>
+</ul>
+
+<!-- BASE URL -->
+<h2>Base URL</h2>
+<pre>http://27.102.137.238/api/</pre>
+
+<!-- AUTH -->
+<h2>Authentication</h2>
+
+<h3>Login Response</h3>
+<pre>
+{
+  "refresh": "token",
+  "access": "token",
+  "role": "admin",
+  "user_id": "uuid"
+}
+</pre>
+
+<h3>Field Description</h3>
+<ul>
+    <li><strong>refresh</strong> – Used to obtain a new access token</li>
+    <li><strong>access</strong> – Used for authenticated API requests</li>
+    <li><strong>role</strong> – User role (client, courier, store owner, admin)</li>
+    <li><strong>user_id</strong> – Unique user identifier (UUID)</li>
+</ul>
+
+<!-- USER DATA -->
+<h2>Retrieve User Data</h2>
+<p>Use the following endpoints based on user role:</p>
+<pre>
+/couriers/&lt;user_id&gt;/
+/clients/&lt;user_id&gt;/
+/store-owner/&lt;user_id&gt;/
+</pre>
+
+<p><strong>Important:</strong> Always use the correct endpoint for the user role.</p>
+
+<!-- USER MANAGEMENT -->
+<h2>User Management</h2>
+<ul>
+    <li><code>/users/</code> – Get all users</li>
+    <li><code>/users/&lt;uuid:id&gt;/</code> – Delete a user</li>
+</ul>
+
+<!-- AUTH ENDPOINTS -->
+<h2>Authentication & Security</h2>
+<ul>
+    <li><code>/request-otp/</code> – Request OTP</li>
+    <li><code>/forget-password/</code> – Reset password</li>
+    <li><code>/login/</code> – User login</li>
+    <li><code>/token/refresh/</code> – Refresh token</li>
+</ul>
+
+<!-- ACCOUNT -->
+<h2>Account Management</h2>
+<ul>
+    <li><code>/disable-account/</code> – Disable accounts</li>
+    <li><code>/disable-account/&lt;id&gt;/</code> – Enable account</li>
+</ul>
+
+<!-- ROLES API -->
+<h2>Role Registration</h2>
+<ul>
+    <li><code>/couriers/</code></li>
+    <li><code>/clients/</code></li>
+    <li><code>/store-owner/</code></li>
+</ul>
+
+<!-- PRODUCTS -->
+<h2>Product Categories</h2>
+<ul>
+    <li><code>/product-categories/</code> – Create & list categories</li>
+    <li><code>/product-categories/&lt;id&gt;/</code> – Delete category</li>
+    <li><code>/delete-multiple-product-categories/</code></li>
+</ul>
+
+<h2>Products</h2>
+<ul>
+    <li><code>/product/</code> – Create & list products</li>
+    <li><code>/product/&lt;id&gt;/</code> – Retrieve/delete product</li>
+    <li><code>/delete-multiple-product/</code></li>
+    <li><code>/product-categories-products/</code></li>
+</ul>
+
+<!-- CART -->
+<h2>Cart</h2>
+<ul>
+    <li><code>/cart/</code></li>
+    <li><code>/cart/&lt;id&gt;/</code></li>
+    <li><code>/increase-cart-product-quantity/</code></li>
+    <li><code>/decrease-cart-product-quantity/</code></li>
+    <li><code>/remove-cart-product/</code></li>
+</ul>
+
+<!-- ORDERS -->
+<h2>Orders</h2>
+<ul>
+    <li><code>/create-order/</code></li>
+    <li><code>/order/</code></li>
+    <li><code>/order/&lt;id&gt;/</code></li>
+    <li><code>/assign-courier/&lt;id&gt;/</code> – Store owner only</li>
+    <li><code>/update-order-status/&lt;id&gt;/</code></li>
+</ul>
+
+<!-- BUSINESS LOGIC -->
+<h2>Delivery Workflow</h2>
+<ol>
+    <li>Client places order</li>
+    <li>Store owner processes order</li>
+    <li>Store owner assigns courier</li>
+    <li>Courier delivers order</li>
+    <li>Courier updates delivery status</li>
+</ol>
+
+<p><strong>Note:</strong> Couriers do not select orders. They only handle assigned deliveries.</p>
+
+<!-- RUSSIAN VERSION -->
+<h2>Русская версия</h2>
+
+<p>
+В данной системе клиент оформляет заказ, а владелец магазина управляет процессом доставки.
+</p>
+
+<ul>
+    <li>Владелец магазина назначает курьера</li>
+    <li>Курьер выполняет доставку</li>
+    <li>Курьер обновляет статус доставки</li>
+</ul>
+
+<p>
+Курьеры не принимают заказы самостоятельно. Все назначения выполняются владельцем магазина.
+</p>
+
+<p>
+Данная архитектура обеспечивает:
+</p>
+
+<ul>
+    <li>Централизованное управление</li>
+    <li>Прозрачность процессов</li>
+    <li>Контроль и ответственность</li>
+</ul>
+
+</body>
+</html>
