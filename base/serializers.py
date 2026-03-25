@@ -87,6 +87,7 @@ class CouriersSerializer(UsersSerializer):
             'font_side',
             'back_side',
             'about',
+            'avaliale_for_order',
             'date_joined',
         ]
         
