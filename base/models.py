@@ -105,6 +105,10 @@ class StoreOwners(Users):
     
     
 class Couriers(Users):
+    AVALIABLE_FOR_ORDER = [
+        ('active', 'ACTIVE'),
+        ('inactive', 'INACTIVE')
+    ]
     address = models.CharField(max_length=50, null=False, blank=False)
     phone_number =  models.CharField(max_length=50, null=False, blank=False)
     document_type = models.CharField(max_length=50, null=True, blank=True)
@@ -114,7 +118,11 @@ class Couriers(Users):
     font_side = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
     back_side = models.ImageField(upload_to='courier_id_image/', null=True, blank=True)
     about =  models.TextField(max_length=200, null=True, blank=True)
-    
+    avaliale_for_order = models.CharField(
+        max_length=10,
+        choices=AVALIABLE_FOR_ORDER,
+        default='inactive'
+    )
     
     class Meta:
         verbose_name_plural = "Couriers"
