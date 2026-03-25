@@ -142,7 +142,7 @@ class StoreOwnerView(generics.ListCreateAPIView):
     queryset = StoreOwners.objects.all()
     
 class RetrieveStoreOwnertView(generics.RetrieveAPIView):
-    queryset = Users.objects.all()
+    queryset = StoreOwners.objects.all()
     serializer_class = StoreOwnersSerializer 
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
@@ -164,7 +164,7 @@ class CourierView(generics.ListCreateAPIView):
 
     
 class RetrieveCourierView(generics.RetrieveAPIView):
-    queryset = Users.objects.all()
+    queryset = Couriers.objects.all()
     serializer_class = CouriersSerializer 
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
