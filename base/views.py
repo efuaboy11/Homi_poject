@@ -126,7 +126,7 @@ class ClientView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Client.objects.all()
     
-class RetrieveClientView(generics.RetrieveAPIView):
+class RetrieveClientView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Users.objects.all()
     serializer_class = ClientSerializer 
     permission_classes = [IsAuthenticated]
@@ -141,7 +141,7 @@ class StoreOwnerView(generics.ListCreateAPIView):
     search_fields = ['store_name']
     queryset = StoreOwners.objects.all()
     
-class RetrieveStoreOwnertView(generics.RetrieveAPIView):
+class RetrieveStoreOwnertView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StoreOwners.objects.all()
     serializer_class = StoreOwnersSerializer 
     permission_classes = [IsAuthenticated]
@@ -163,7 +163,7 @@ class CourierView(generics.ListCreateAPIView):
     #     return [IsAdminUser()]   # only admin can view list
 
     
-class RetrieveCourierView(generics.RetrieveAPIView):
+class RetrieveCourierView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Couriers.objects.all()
     serializer_class = CouriersSerializer 
     permission_classes = [IsAuthenticated]
