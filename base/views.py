@@ -340,22 +340,36 @@ class ChangeAdminPasswordView(generics.GenericAPIView):
     serializer_class = ChangeAdminPasswordSerializer
     permission_classes = [IsAdmin]
     authentication_classes = []
-    
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         email = serializer.validated_data['email']
         new_password = serializer.validated_data['new_password']
-        
+        new_email = serializer.validated_data.get('new_email')  # ✅ optional
+
         try:
             user = Users.objects.get(email=email)
-            # otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
-            
+
+            # ✅ Update password
             user.set_password(new_password)
-            user.save()          
+
+            # ✅ Update email ONLY if provided
+            if new_email:
+                user.email = new_email
+
+            user.save()
+
+            return Response({'message': 'Password (and email if provided) updated successfully.'})
+
         except Users.DoesNotExist:
-            return Response({'error': 'Invalid email or OTP.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {'error': 'Invalid email.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+
     
 class DisableAccountView(generics.ListCreateAPIView):
     serializer_class = DisableAccountSerializer

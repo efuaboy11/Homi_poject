@@ -186,6 +186,7 @@ class LogoutSerializer(serializers.Serializer):
 class ChangeAdminPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     new_password = serializers.CharField(write_only=True, min_length=8)
+    new_email = serializers.EmailField(required=False, allow_null=True)
     
     
 class DisableAccountSerializer(serializers.ModelSerializer):
