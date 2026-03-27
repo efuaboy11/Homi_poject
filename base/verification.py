@@ -3,7 +3,7 @@ from django.db.models import Q
 from .models import Users
 
 
-def authenticate(self, request, username=None, password=None, **kwargs):
+def authenticate(username=None, password=None, **kwargs):
     try:
         user = Users.objects.get(
             Q(email=username) | Q(phone_number=username)
