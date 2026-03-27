@@ -47,6 +47,14 @@ class IsClient(BasePermission):
             or request.user.is_authenticated
             or request.user.role == Role.CLIENT
         )
+
+class IsStoreOwner(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user
+            or request.user.is_authenticated
+            or request.user.role == Role.STORE_OWNER
+        )
         
 
         

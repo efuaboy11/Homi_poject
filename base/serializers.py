@@ -74,6 +74,25 @@ class StoreOwnersSerializer(UsersSerializer):
             'date_joined',
         ]
         
+
+class StoreOpeningHoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreOpeningHours
+        fields = '__all__'
+        
+class IndividualStoreOpeningHoursSerializer(serializers.ModelSerializer):
+    opening_hours = StoreOpeningHoursSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = StoreOwners
+        fields = [
+            'id',
+            'store_name',
+            'address',
+            'phone_number',
+            'opening_hours'
+        ]
+        
 class CouriersSerializer(UsersSerializer):
     class Meta(UsersSerializer.Meta):
         model = Couriers

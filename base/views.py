@@ -22,6 +22,7 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from rest_framework.filters import SearchFilter
 from .paystack import Paystack
+from rest_framework.exceptions import PermissionDenied
 @api_view(['GET'])
 def endpoints(request):
     data = [
@@ -147,8 +148,27 @@ class RetrieveStoreOwnertView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
     
+    
+class StoreOpeningHoursView(generics.ListCreateAPIView):
+    serializer_class = StoreOpeningHoursSerializer
+    permission_classes = [IsStoreOwner]
+    filter_backends = [ExactSearchFilter]
+    search_fields = ['day']
+    
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            store_owner = StoreOwners.objects.get(id=user.id)
+        except StoreOwners.DoesNotExist:
+            raise PermissionDenied("You are not a store owner")
+
+        return StoreOpeningHours.objects.filter(store=store_owner)
 
 
+class IndividualStoreOpeningHoursView(generics.ListAPIView):
+    queryset =  StoreOwners.objects.prefetch_related('opening_hours')
+    serializer_class = IndividualStoreOpeningHoursSerializer
+    permission_classes = [AllowAny]
 
 class CourierView(generics.ListCreateAPIView):
     serializer_class = CouriersSerializer

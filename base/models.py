@@ -104,6 +104,34 @@ class StoreOwners(Users):
         return f"{self.first_name} {self.last_name}"
     
     
+    
+
+
+
+class StoreOpeningHours(models.Model):
+    DAYS_OF_WEEK = [
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday'),
+        ('sunday', 'Sunday'),
+    ]
+
+    store = models.ForeignKey(StoreOwners, on_delete=models.CASCADE, related_name='opening_hours')
+    day = models.CharField(choices=DAYS_OF_WEEK, default='monday')
+    open_time = models.TimeField()
+    close_time = models.TimeField()
+    is_closed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('store', 'day') 
+
+    def __str__(self):
+        return f"{self.get_day_display()} ({self.store.store_name})"
+    
+    
 class Couriers(Users):
     AVALIABLE_FOR_ORDER = [
         ('active', 'ACTIVE'),
