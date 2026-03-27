@@ -162,9 +162,9 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
         
 # LOGIN
 class LoginSerializer(serializers.Serializer):
-    email = serializers.CharField()
-    # otp = serializers.CharField(max_length=6)
+    login = serializers.CharField()  # email OR phone
     password = serializers.CharField(write_only=True, min_length=8)
+
     
     
 #OTP
