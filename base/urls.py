@@ -24,6 +24,12 @@ urlpatterns = [
     path('store-owner/', views.StoreOwnerView.as_view(), name='store-owner'),
     path('store-owner/<uuid:id>/', views.RetrieveStoreOwnertView.as_view(), name='individual-store-owner'),
     
+    path('store-owner-opening-hours/', views.StoreOpeningHoursView.as_view(), name='store-owner-opening-hours'),
+    path('store-owner-opening-hours/<int:id>/', views.RetrieveStoreOpeningHoursView.as_view(), name='retrieve-store-owner-opening-hours'),
+    path('individual-store-owner-opening-hours/', views.IndividualStoreOpeningHoursView.as_view(), name='individual-store-owner-opening-hours'),
+    
+    
+    
     
     # Product Categories
     path('product-categories/', views.ProductCategoriesView.as_view(), name='product-categories'),

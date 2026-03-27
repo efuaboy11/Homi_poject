@@ -40,6 +40,9 @@ def endpoints(request):
         'clients/<uuid:id>/',
         'store-owner/',
         'store-owner/<uuid:id>/',
+        'store-owner-opening-hours/',
+        'store-owner-opening-hours/<int:id>/',
+        'individual-store-owner-opening-hours/',
         'product-categories/',
         'product-categories/<str:pk>/',
         'delete-multiple-product-categories/', 
@@ -164,6 +167,12 @@ class StoreOpeningHoursView(generics.ListCreateAPIView):
 
         return StoreOpeningHours.objects.filter(store=store_owner)
 
+
+class RetrieveStoreOpeningHoursView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StoreOpeningHours.objects.all()
+    serializer_class = StoreOpeningHoursSerializer 
+    permission_classes = [IsStoreOwner]
+    lookup_field = 'id'
 
 class IndividualStoreOpeningHoursView(generics.ListAPIView):
     queryset =  StoreOwners.objects.prefetch_related('opening_hours')
