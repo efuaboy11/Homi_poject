@@ -10,7 +10,7 @@ from django.conf import settings
 from .smpt import send_email, send_bulk_email
 from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
-from .verification import authenticate
+from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
