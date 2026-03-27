@@ -330,7 +330,7 @@ class LoginView(generics.GenericAPIView):
                 )
             
             token_serializer = CustomTokenObtainPairSerializer(
-                data={'username': login, 'password': password}
+                data={'email': login, 'password': password}
             )
             token_serializer.is_valid(raise_exception=True)
             
