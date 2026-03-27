@@ -51,7 +51,7 @@ CSRF_TRUSTED_ORIGINS = [
 AUTH_USER_MODEL = 'base.Users'  
 
 AUTHENTICATION_BACKENDS = [
-    'base.backends.EmailOrPhoneBackend',
+    'base.verification.EmailOrPhoneBackend',
 ]
 
 INSTALLED_APPS = [
