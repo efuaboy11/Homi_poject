@@ -18,13 +18,14 @@ class Role(models.TextChoices):
     
     
 class CustomAccountManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email,  **extra_fields):
+    # ✅ AFTER
+    def create_user(self, first_name, last_name, email, password=None, **extra_fields):
         if not email:
-            return ValueError("The Email field must be set")
+            raise ValueError("The Email field must be set")  # raise, not return
         email = self.normalize_email(email)
         extra_fields.setdefault('role', Role.CLIENT)
-        user = self.model(first_name=first_name, last_name=last_name, email=email,  **extra_fields)
-        user.set_password(user.password)
+        user = self.model(first_name=first_name, last_name=last_name, email=email, **extra_fields)
+        user.set_password(password)  # pass the password argument, not user.password
         user.save(using=self._db)
         return user
     
