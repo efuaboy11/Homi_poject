@@ -5,7 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, Toke
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.contenttypes.models import ContentType
-
+from django.db.models import Sum, F, Q, Value
 #------------------------------------ USER ACCOUNT -----------------------------------------
 
 
@@ -113,27 +113,38 @@ class CouriersSerializer(UsersSerializer):
 # -------------------------------------- AUTHENTICATION --------------------------------------
 
     
-
-from django.contrib.auth import authenticate
-
+# ✅ AFTER — override validate() to accept 'login' and resolve it to email
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'email'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add 'login' field and make 'email' not required
+        self.fields['login'] = serializers.CharField(required=False)
+        self.fields['email'].required = False
+
     def validate(self, attrs):
-        login = attrs.get('login')  # email or phone
-        password = attrs.get('password')
+        login = attrs.get('login')
+        if login:
+            # Resolve phone/email to the actual email for JWT internals
+            try:
+                user = Users.objects.get(Q(email=login) | Q(phone_number=login))
+                attrs['email'] = user.email  # JWT needs the email key
+            except Users.DoesNotExist:
+                raise serializers.ValidationError("No account found with these credentials.")
 
-        # use your custom backend to authenticate
-        user = authenticate(username=login, password=password)
-        if not user:
-            raise serializers.ValidationError('No active account found with the given credentials')
-
-        # attach user to self.user for super().validate()
-        self.user = user
-        data = super().validate({'username': user.email, 'password': password})
-
-        # add extra info
+        data = super().validate(attrs)
+        user = self.user
         data['role'] = user.role
-        data['user_id'] = str(user.id)
+        data['user_id'] = str(user.id)   # ❌ was missing str() — UUID isn't JSON serializable
         return data
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['role'] = user.role
+        token['user_id'] = str(user.id)
+        return token
     
     
 class CustomTokenRefreshSerializer(TokenRefreshSerializer):

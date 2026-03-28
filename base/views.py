@@ -291,56 +291,37 @@ class ForgotPasswordVIew(generics.GenericAPIView):
         )
         
         
+# ✅ AFTER
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
     authentication_classes = []
-    
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         login = serializer.validated_data['login']
         password = serializer.validated_data['password']
-        # otp = serializer.validated_data['otp']
+
         try:
-            user = Users.objects.get(
-                Q(email=login) | Q(phone_number=login)
-            )
-            # otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
-            
-            if DisableAccount.objects.filter(user=user).exists():
-                return Response(
-                    {'error': 'Your account is disabled. Please contact support'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-                
-            # expiration_time = otp_instance.created_at + timedelta(minutes=120)
-            # if timezone.now() > expiration_time:
-            #     return Response({'error': 'OTP has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            
-            # 🔥 IMPORTANT: use username (not email)
-            user = authenticate(username=login, password=password)
-            
-            if user is None:
-                return Response(
-                    {'error': 'Invalid credentials'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            
-            token_serializer = CustomTokenObtainPairSerializer(
-                data={'login': login, 'password': password}
-            )
-            token_serializer.is_valid(raise_exception=True)
-            
-            return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
-        
+            user = Users.objects.get(Q(email=login) | Q(phone_number=login))
         except Users.DoesNotExist:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
+
+        if DisableAccount.objects.filter(user=user).exists():
             return Response(
-                {'error': 'Invalid credentials'},
-                status=status.HTTP_404_NOT_FOUND
+                {'error': 'Your account is disabled. Please contact support'},
+                status=status.HTTP_400_BAD_REQUEST
             )
+
+        # Let the serializer handle authentication + token generation
+        token_serializer = CustomTokenObtainPairSerializer(
+            data={'login': login, 'password': password}
+        )
+        token_serializer.is_valid(raise_exception=True)
+
+        return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
         
         
 
