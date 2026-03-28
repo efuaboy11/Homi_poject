@@ -50,9 +50,28 @@ CSRF_TRUSTED_ORIGINS = [
 
 AUTH_USER_MODEL = 'base.Users'  
 
-# AUTHENTICATION_BACKENDS = [
-#     'base.verification.EmailOrPhoneBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    'base.verification.EmailOrPhoneBackend',
+]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/var/www/Homi_project/debug.log',  # your path
+        },
+    },
+    'loggers': {
+        'base.backends': {  # match __name__ used in logger
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
