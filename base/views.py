@@ -320,7 +320,7 @@ class LoginView(generics.GenericAPIView):
             #     return Response({'error': 'OTP has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
             
             # Use email as the identifier for authentication
-            user = authenticate(email=email, password=password)
+            # user = authenticate(email=email, password=password)
             if user is None:
                 return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
             
