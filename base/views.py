@@ -333,6 +333,7 @@ class LoginView(generics.GenericAPIView):
             #     data={'email': login, 'password': password}
             # )
             # token_serializer.is_valid(raise_exception=True)
+            return Response(status=status.HTTP_200_OK)
             
             # return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
         
