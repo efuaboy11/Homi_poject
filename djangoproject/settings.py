@@ -61,7 +61,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/var/www/Homi_project/debug.log',  # your path
+            'filename': '/var/www/Homi_poject/debug.log',  # your path
         },
     },
     'loggers': {
