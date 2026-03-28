@@ -321,7 +321,7 @@ class LoginView(generics.GenericAPIView):
             
             
             # 🔥 IMPORTANT: use username (not email)
-            # user = authenticate(username=login, password=password)
+            user = authenticate(username=login, password=password)
             
             if user is None:
                 return Response(
@@ -330,7 +330,7 @@ class LoginView(generics.GenericAPIView):
                 )
             
             token_serializer = CustomTokenObtainPairSerializer(
-                data={'email': login, 'password': password}
+                data={'login': login, 'password': password}
             )
             token_serializer.is_valid(raise_exception=True)
             

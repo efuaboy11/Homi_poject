@@ -114,24 +114,26 @@ class CouriersSerializer(UsersSerializer):
 
     
 
+from django.contrib.auth import authenticate
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = 'email' 
-    
     def validate(self, attrs):
-        data = super().validate(attrs)
-        user = self.user
+        login = attrs.get('login')  # email or phone
+        password = attrs.get('password')
+
+        # use your custom backend to authenticate
+        user = authenticate(username=login, password=password)
+        if not user:
+            raise serializers.ValidationError('No active account found with the given credentials')
+
+        # attach user to self.user for super().validate()
+        self.user = user
+        data = super().validate({'username': user.email, 'password': password})
+
+        # add extra info
         data['role'] = user.role
-        data['user_id'] = user.id
-        
+        data['user_id'] = str(user.id)
         return data
-    
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['role'] = user.role
-        token['user_id'] = str(user.id)
-        
-        return token
     
     
 class CustomTokenRefreshSerializer(TokenRefreshSerializer):
