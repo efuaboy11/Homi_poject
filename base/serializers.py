@@ -5,7 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, Toke
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Sum, F, Q, Value
+
 #------------------------------------ USER ACCOUNT -----------------------------------------
 
 
@@ -113,37 +113,22 @@ class CouriersSerializer(UsersSerializer):
 # -------------------------------------- AUTHENTICATION --------------------------------------
 
     
-# ✅ AFTER — override validate() to accept 'login' and resolve it to email
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = 'email'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Add 'login' field and make 'email' not required
-        self.fields['login'] = serializers.CharField(required=False)
-        self.fields['email'].required = False
-
     def validate(self, attrs):
-        login = attrs.get('login')
-        if login:
-            # Resolve phone/email to the actual email for JWT internals
-            try:
-                user = Users.objects.get(Q(email=login) | Q(phone_number=login))
-                attrs['email'] = user.email  # JWT needs the email key
-            except Users.DoesNotExist:
-                raise serializers.ValidationError("No account found with these credentials.")
-
         data = super().validate(attrs)
         user = self.user
         data['role'] = user.role
-        data['user_id'] = str(user.id)   # ❌ was missing str() — UUID isn't JSON serializable
+        data['user_id'] = user.id
+        
         return data
-
+    
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         token['role'] = user.role
         token['user_id'] = str(user.id)
+        
         return token
     
     
@@ -177,9 +162,9 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
         
 # LOGIN
 class LoginSerializer(serializers.Serializer):
-    login = serializers.CharField()  # email OR phone
+    email = serializers.CharField()
+    # otp = serializers.CharField(max_length=6)
     password = serializers.CharField(write_only=True, min_length=8)
-
     
     
 #OTP

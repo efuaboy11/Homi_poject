@@ -10,7 +10,7 @@ from django.conf import settings
 from .smpt import send_email, send_bulk_email
 from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
+from .verification import authenticate
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -291,40 +291,46 @@ class ForgotPasswordVIew(generics.GenericAPIView):
         )
         
         
-# ✅ AFTER
+
+        
+        
+#Login
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
     authentication_classes = []
-
+    
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        login = serializer.validated_data['login']
+        
+        email = serializer.validated_data['email']
+        # otp = serializer.validated_data['otp']
         password = serializer.validated_data['password']
-
+        
         try:
-            user = Users.objects.get(Q(email=login) | Q(phone_number=login))
+            user = Users.objects.get(email=email)
+            # otp_instance = OTPGenerator.objects.get(user=user, otp=otp)
+            
+            if DisableAccount.objects.filter(user=user).exists():
+                return Response(f'Your account is disable. Please contact support ', status=status.HTTP_400_BAD_REQUEST)
+            
+            # expiration_time = otp_instance.created_at + timedelta(minutes=120)
+            # if timezone.now() > expiration_time:
+            #     return Response({'error': 'OTP has expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Use email as the identifier for authentication
+            user = authenticate(email=email, password=password)
+            if user is None:
+                return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            token_serializer = CustomTokenObtainPairSerializer(data={'email': email, 'password': password})
+            token_serializer.is_valid(raise_exception=True)
+            return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
         except Users.DoesNotExist:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
-
-        if DisableAccount.objects.filter(user=user).exists():
-            return Response(
-                {'error': 'Your account is disabled. Please contact support'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Let the serializer handle authentication + token generation
-        token_serializer = CustomTokenObtainPairSerializer(
-            data={'login': login, 'password': password}
-        )
-        token_serializer.is_valid(raise_exception=True)
-
-        return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
-        
-        
-
+            return Response({'error': 'Invalid email or OTP.'}, status=status.HTTP_404_NOT_FOUND)
+        except OTPGenerator.DoesNotExist:
+            return Response({'error':  'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
         
 class CustomRefreshTokenView(TokenRefreshView):
     serializer_class = CustomTokenRefreshSerializer
